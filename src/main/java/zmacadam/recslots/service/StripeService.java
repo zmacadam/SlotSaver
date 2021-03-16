@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 public class StripeService {
 
-    String secretKey = "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";
+    String secretKey = "hidden";
 
     @PostConstruct
     public void init() {

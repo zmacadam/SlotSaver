@@ -16,9 +16,9 @@ import java.util.List;
 @Component
 public class MessageSenderTwilio {
     // Find your Account Sid and Token at twilio.com/user/account
-    public static final String ACCOUNT_SID = "ACa7cab1eedc17cb1bf8534ab9e0990cc2";
-    public static final String AUTH_TOKEN = "6801067c9a6149a04e0e468bd495b00b";
-    public static final String FROM_NUMBER = "+13092502079";
+    public static final String ACCOUNT_SID = "hidden";
+    public static final String AUTH_TOKEN = "hidden";
+    public static final String FROM_NUMBER = "+hidden";
 
     @Autowired
     private UserService userService;

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>SlotSaver Registration</title>
+    <link rel="stylesheet" th:href="@{/css/registration.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="login-dark">
+    <form autocomplete="off" action="#" th:action="@{/registration}"
+          th:object="${user}" method="post" role="form">
+        <h2 class="sr-only">Login Form</h2>
+        <div class="form-group">
+            <input type="text" id="firstField" th:field="*{first}" placeholder="First Name" class="form-control"/>
+            <label th:if="${#fields.hasErrors('first')}" th:errors="*{first}" class="validation-message"></label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="lastField" th:field="*{last}" placeholder="Last Name" class="form-control"/>
+            <label th:if="${#fields.hasErrors('last')}" th:errors="*{last}" class="validation-message"></label>
+        </div>
+        <div class="form-group">
+            <input type="tel" id="phoneField" th:field="*{phoneNumber}" placeholder="Phone Number" class="form-control"/>
+            <label th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="validation-message"></label>
+        </div>
+        <div class="form-group">
+            <input type="text" id="userName" th:field="*{userName}" placeholder="User Name" class="form-control"/>
+            <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="validation-message"></label>
+        </div>
+        <div class="form-group">
+            <input type="password" th:field="*{password}"
+                   placeholder="Password" class="form-control"/>
+            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" name="Submit" type="Submit">Create Account</button>
+        </div>
+        <div class="text-center w-100">
+            <p class="text-muted">Existing User? <a href="/login" class="text-primary ml-2">Login</a></p>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    var phoneField = document.getElementById('phoneField');
+    phoneField.addEventListener('keyup', function(){
+    var phoneValue = phoneField.value;
+    var output;
+    phoneValue = phoneValue.replace(/[^0-9]/g, '');
+    var area = phoneValue.substr(0, 3);
+    var pre = phoneValue.substr(3, 3);
+    var tel = phoneValue.substr(6, 4);
+
+    if (area.length < 3) {
+        output = area;
+    } else if (area.length == 3 && pre.length < 3) {
+        output = "(" + area + ") " + pre;
+    } else if (area.length == 3 && pre.length == 3) {
+        output = "(" + area + ") " + pre + "-" + tel;
+    }
+    phoneField.value = output;
+});
+</script>
+
+</body>
+</html>

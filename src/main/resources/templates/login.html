@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>SlotSaver</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div id="wrapper">
+    <div class="login-dark">
+        <div align="center">
+            <img th:src="@{/images/test2.png}" height="400px" width="375px"/>
+        </div>
+        <form th:action="@{/login}" method="POST">
+            <div align="center" style="margin-top: -10%">
+                <span style="color: green;" th:utext="${successMessage}"></span>
+            </div>
+            <h2 class="sr-only">Login Form</h2>
+            <div class="form-group">
+                <input type="text" id="user_name" name="user_name" placeholder="User Name" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <input type="password" th:placeholder="Password" id="password" name="password" class="form-control"/>
+            </div>
+            <div align="center" th:if="${param.error}">
+                <p style="font-size: 20px; color: #FF1C19;">User Name or Password invalid, please verify</p>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" name="Submit" type="Submit">Log In</button>
+            </div>
+            <div class="text-center w-100">
+                <p class="text-muted font-weight-bold">New User? <a href="/registration" class="text-primary ml-2">Create Account</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

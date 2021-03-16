@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xmlns:th='http://www.thymeleaf.org'>
+<head>
+    <link rel="stylesheet" th:href="@{/css/checkout.css}"/>
+    <title>Checkout</title>
+</head>
+<body>
+<div id="myOverlay" class="overlay">
+    <span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
+    <div class="overlay-content">
+        <form action='/charge' method='POST' id='checkout-form'>
+            <input type='hidden' th:value='${amount}' name='amount' />
+            <label> User Registration successful!</label><br>
+            <label>$10 to active user account!</label><br>
+            <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
+            <script
+                    src='https://checkout.stripe.com/checkout.js'
+                    class='stripe-button'
+                    th:attr='data-key=${stripePublicKey},
+                         data-amount=${amount},
+                         data-currency=${currency}'
+                    data-name='Baeldung'
+                    data-description='Spring course checkout'
+                    data-image='http://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png'
+                    data-locale='auto'
+                    data-zip-code='false'>
+            </script>
+            <script>
+                document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+            </script>
+            <button type="submit">Pay now!</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>SlotSaver</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+<!--    <form th:action="@{/logout}" method="get">-->
+<!--        <button class="btn btn-md btn-danger btn-block" name="registration"-->
+<!--                type="Submit">Logout-->
+<!--        </button>-->
+<!--    </form>-->
+<div th:if="${user.getPaid()}">
+    <div class="panel-group" style="margin-top:40px;">
+        <div class="panel panel-primary" style="border-color:#4d1979">
+            <div class="panel-heading" style="background-color:#4d1979">
+                <span th:utext="${userName}"></span>
+            </div>
+            <div class="panel-body">
+                <div align="center">
+                    <span style="color: green; font-size: 30px" th:text="${paymentSuccess}"></span>
+                </div>
+                <div align="center">
+                    <span style="color: green;" th:utext="${updateSuccess}"></span>
+                </div>
+                <div align="center">
+                    <form th:action="@{/updatePreferences}" method="POST">
+                        <h1> User Preferences </h1>
+                        <h4 style="margin-bottom: -3%">Select which days you would like to be notified of:</h4>
+                        <ol class="switches">
+                            <li>
+                                <input type="checkbox" id="10" name="day1" th:checked="${preferences.isDay1()}">
+                                <label for="10">
+                                    <span>Day 1 : Today</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="11" name="day2" th:checked="${preferences.isDay2()}">
+                                <label for="11">
+                                    <span>Day 2 : Tomorrow</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="12" name="day3" th:checked="${preferences.isDay3()}">
+                                <label for="12">
+                                    <span>Day 3 : Two days ahead</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                        </ol>
+                        <h4 style="margin-bottom: -3%">Select which time slots you would like to be notified of:</h4>
+                        <ol class="switches">
+                            <li>
+                                <input type="checkbox" id="1" name="week1" th:checked="${preferences.isWeek1()}">
+                                <label for="1">
+                                    <span>Weekday Slot 1 : 6 - 9 AM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="2" name="week2" th:checked="${preferences.isWeek2()}">
+                                <label for="2">
+                                    <span>Weekday Slot 2 : 10 AM - 2 PM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="3" name="week3" th:checked="${preferences.isWeek3()}">
+                                <label for="3">
+                                    <span>Weekday Slot 3 : 3 - 7 PM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="4" name="week4" th:checked="${preferences.isWeek4()}">
+                                <label for="4">
+                                    <span>Weekday Slot 4 : 8 - 11 PM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="5" name="weekend1" th:checked="${preferences.isWeekend1()}">
+                                <label for="5">
+                                    <span>Weekend Slot 1 : 10 AM - 2 PM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="6" name="weekend2" th:checked="${preferences.isWeekend2()}">
+                                <label for="6">
+                                    <span>Weekend Slot 2 : 3 - 6 PM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="7" name="weekend3" th:checked="${preferences.isWeekend3()}">
+                                <label for="7">
+                                    <span>Weekend Slot 3 : 7 - 10 PM</span>
+                                    <span></span>
+                                </label>
+                            </li>
+                        </ol>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" style="background-color: #4d1979; width: 40%; margin-top: 3%" name="Submit" type="Submit">Save Preferences</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:unless="${user.getPaid()}">
+    <div id="myOverlay" class="overlay">
+        <div class="overlay-content">
+            <form action='/charge' method='POST' id='checkout-form'>
+                <input type='hidden' th:value='${amount}' name='amount' />
+                <label>Pay securely using Stripe</label><br>
+                <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
+                <script
+                        src='https://checkout.stripe.com/checkout.js'
+                        class='stripe-button'
+                        th:attr='data-key=${stripePublicKey},
+                        data-amount=${amount},
+                        data-currency=${currency}'
+                        data-name='SlotSaver'
+                        data-description='Lifetime SlotSaver account'
+                        data-image=''
+                        data-locale='auto'
+                        data-zip-code='false'>
+                </script>
+                <script>
+                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                    function openSearch() {
+                        document.getElementById("myOverlay").style.display = "block";
+                    }
+                    function closeSearch() {
+                        document.getElementById("myOverlay").style.display = "none";
+                        const Http = new XMLHttpRequest();
+                        const url = "logout";
+                        Http.open("GET", url);
+                        Http.send();
+                    }
+                </script>
+                <button type="submit">Pay now!</button>
+                <label>Or venmo $20 to @zachmacadam captioned slotsaver!</label>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

@@ -96,9 +96,9 @@ public class SlotFinder {
             TCULogin.click();
             Thread.sleep(1000);
             WebElement userName = driver.findElement(By.id("okta-signin-username"));
-            userName.sendKeys("zmacadam");
+            userName.sendKeys("hidden");
             WebElement password = driver.findElement(By.id("okta-signin-password"));
-            password.sendKeys("GoFro123!");
+            password.sendKeys("hidden!");
             WebElement submit = driver.findElement(By.id("okta-signin-submit"));
             submit.click();
             Thread.sleep(2000);
